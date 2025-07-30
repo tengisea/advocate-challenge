@@ -1,10 +1,19 @@
-import { QueryResolvers } from "@/generated";
-import { Task } from "@/models"
+import { Task } from "@/models";
 
-export const getFinishedTaskList: QueryResolvers["getFinishedTaskList"] = async (
+export default async function getFinishedTaskList(
   _: unknown,
-  { completed }: { completed: boolean }
-) => {
-  const tasks = await Task.find({ completed });
-  return tasks || [];
-};
+  { isDone }: { isDone: boolean }
+) {
+    const tasks = await Task.find({ isDone: isDone });
+    return tasks.map((task) => ({
+      taskId: task._id.toString(),
+      taskName: task.taskName,
+      description: task.description,
+      isDone: task.isDone,
+      priority: task.priority,
+      tags: task.tags,
+      createdAt: task.createdAt?.toISOString() || new Date().toISOString(),
+      updatedAt: task.updatedAt?.toISOString() || new Date().toISOString(),
+      userId: task.userId,
+    }));
+  };

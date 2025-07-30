@@ -1,16 +1,30 @@
 import mongoose from "mongoose";
 
 export interface Task {
-  title: string;
+  taskName: string;
   description: string;
-  completed: boolean;
+  isDone: boolean;
+  priority: number;
+  tags: string[];
+  userId: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const taskSchema = new mongoose.Schema<Task>(
   {
-    title: { type: String, required: true, unique: true },
+    taskName: { type: String, required: true },
     description: { type: String, required: true },
-    completed: { type: Boolean, default: false },
+    isDone: { type: Boolean, default: false },
+    priority: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 5,
+      default: 1,
+    },
+    tags: { type: [String], default: [] },
+    userId: { type: String, required: true },
   },
   { timestamps: true }
 );

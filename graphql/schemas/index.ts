@@ -7,31 +7,40 @@ export const typeDefs = gql`
   }
 
   type Task {
-    id: ID
-    title: String!
+    taskId: ID
+    taskName: String!
     description: String!
-    completed: Boolean
+    isDone: Boolean
+    priority: Int!
+    tags: [String!]
+    createdAt: String!
+    updatedAt: String!
+    userId: String!
   }
 
   input TaskInput {
-    title: String!
+    taskName: String!
     description: String!
-    completed: Boolean
+    priority: Int!
+    tags: [String!]
+    userId: String!
   }
 
   input UpdateTaskInput {
-    title: String
+    taskName: String
     description: String
-    completed: Boolean
+    isDone: Boolean
+    priority: Int
+    tags: [String!]
   }
 
   type Query {
     getAllTasks: [Task!]!
-    getFinishedTaskList(completed: Boolean!): [Task!]!
+    getFinishedTaskList(isDone: Boolean!): [Task!]!
   }
 
   type Mutation {
     addTask(input: TaskInput!): SuccessResponse!
-    updateTask(id: ID!, input: UpdateTaskInput!): SuccessResponse!
+    updateTask(taskId: ID!, input: UpdateTaskInput!): SuccessResponse!
   }
 `;
