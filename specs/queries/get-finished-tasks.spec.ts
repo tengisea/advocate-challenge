@@ -26,7 +26,7 @@ describe("getFinishedTaskList", () => {
     jest.clearAllMocks();
   });
 
-  it("should return finished tasks when isDone is true", async () => {
+  it("1. should return finished tasks when isDone is true", async () => {
     (Task.find as jest.Mock).mockResolvedValue(mockTasks);
 
     const result = await getFinishedTaskList(undefined, { isDone: true });
@@ -47,7 +47,7 @@ describe("getFinishedTaskList", () => {
     ]);
   });
 
-  it("should return empty array if no tasks are found", async () => {
+  it("2. should return empty array if no tasks are found", async () => {
     (Task.find as jest.Mock).mockResolvedValue([]);
 
     const result = await getFinishedTaskList(undefined, { isDone: false });

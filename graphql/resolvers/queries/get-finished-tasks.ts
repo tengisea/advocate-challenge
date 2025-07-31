@@ -1,9 +1,11 @@
 import { Task } from "@/models";
+import { GraphQLError } from "graphql";
 
 export default async function getFinishedTaskList(
   _: unknown,
   { isDone }: { isDone: boolean }
 ) {
+  try {
     const tasks = await Task.find({ isDone: isDone });
     return tasks.map((task) => ({
       taskId: task._id.toString(),
@@ -16,4 +18,8 @@ export default async function getFinishedTaskList(
       updatedAt: task.updatedAt?.toISOString() || new Date().toISOString(),
       userId: task.userId,
     }));
-  };
+  } catch (error) {
+    console.error("Error in getFinishedTaskList resolver:", error);
+    throw new GraphQLError("Failed to getFinishedTaskList. Please try again later.")
+  }
+}

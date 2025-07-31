@@ -27,7 +27,7 @@ describe("updateTask", () => {
     (Task.findByIdAndUpdate as jest.Mock).mockResolvedValue(true);
   });
 
-  it("should return error if priority is out of range", async () => {
+  it("1. should return error if priority is out of range", async () => {
     const result = await updateTask(null, {
       taskId: mockTaskId,
       input: { ...validInput, priority: 6 },
@@ -39,7 +39,7 @@ describe("updateTask", () => {
     });
   });
 
-  it("should return error if description equals task name", async () => {
+  it("2. should return error if description equals task name", async () => {
     const result = await updateTask(null, {
       taskId: mockTaskId,
       input: { ...validInput, description: "Updated Task" },
@@ -51,7 +51,7 @@ describe("updateTask", () => {
     });
   });
 
-  it("should return error if more than 5 tags are given", async () => {
+  it("3. should return error if more than 5 tags are given", async () => {
     const result = await updateTask(null, {
       taskId: mockTaskId,
       input: { ...validInput, tags: ["1", "2", "3", "4", "5", "6"] },
@@ -63,7 +63,7 @@ describe("updateTask", () => {
     });
   });
 
-  it("should return error if task name is not unique for user", async () => {
+  it("4. should return error if task name is not unique for user", async () => {
     (Task.findOne as jest.Mock).mockResolvedValue({
       taskName: "Duplicate Task",
     });
@@ -79,18 +79,21 @@ describe("updateTask", () => {
     });
   });
 
-  it("should throw error if task is not found", async () => {
+  it("5. should return error if task is not found", async () => {
     (Task.findByIdAndUpdate as jest.Mock).mockResolvedValue(null);
 
-    await expect(
-      updateTask(null, {
-        taskId: mockTaskId,
-        input: validInput,
-      })
-    ).rejects.toThrow("Task not found");
+    const result = await updateTask(null, {
+      taskId: mockTaskId,
+      input: validInput,
+    });
+
+    expect(result).toEqual({
+      success: false,
+      message: "Task not found",
+    });
   });
 
-  it("should update task successfully", async () => {
+  it("6. should update task successfully", async () => {
     const result = await updateTask(null, {
       taskId: mockTaskId,
       input: validInput,

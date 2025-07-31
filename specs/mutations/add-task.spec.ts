@@ -21,7 +21,7 @@ describe("addTask", () => {
     jest.clearAllMocks();
   });
 
-  it("should return error if description is too short", async () => {
+  it("1. should return error if description is too short", async () => {
     const result = await addTask(
       {},
       { input: { ...validInput, description: "short" } }
@@ -32,7 +32,7 @@ describe("addTask", () => {
     });
   });
 
-  it("should return error if priority is invalid", async () => {
+  it("2. should return error if priority is invalid", async () => {
     const result = await addTask(
       {},
       { input: { ...validInput, priority: 10 } }
@@ -43,7 +43,7 @@ describe("addTask", () => {
     });
   });
 
-  it("should return error if description equals taskName", async () => {
+  it("3. should return error if description equals taskName", async () => {
     const result = await addTask(
       {},
       { input: { ...validInput, taskName: "My Task", description: "My Task" } }
@@ -54,7 +54,7 @@ describe("addTask", () => {
     });
   });
 
-  it("should return error if tags are more than 5", async () => {
+  it("4. should return error if tags are more than 5", async () => {
     const result = await addTask(
       {},
       {
@@ -67,7 +67,7 @@ describe("addTask", () => {
     });
   });
 
-  it("should return error if task name already exists", async () => {
+  it("5. should return error if task name already exists", async () => {
     (Task.findOne as jest.Mock).mockResolvedValue({ _id: "123" });
     const result = await addTask({}, { input: validInput });
     expect(result).toEqual({
@@ -76,7 +76,7 @@ describe("addTask", () => {
     });
   });
 
-  it("should create task successfully", async () => {
+  it("6. should create task successfully", async () => {
     (Task.findOne as jest.Mock).mockResolvedValue(null);
     (Task.create as jest.Mock).mockResolvedValue({ _id: "abc" });
 

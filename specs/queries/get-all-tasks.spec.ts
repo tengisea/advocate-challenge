@@ -8,7 +8,7 @@ jest.mock("../../models/task.models", () => ({
 }));
 
 describe("getAllTasks", () => {
-  it("should return formatted tasks", async () => {
+  it("1. should return formatted tasks", async () => {
     (Task.find as jest.Mock).mockResolvedValue([
       {
         _id: "task123",
