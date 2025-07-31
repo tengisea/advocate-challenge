@@ -16,7 +16,6 @@ export default async function getAllTasks() {
       userId: task.userId,
     }));
   } catch (error) {
-    console.error("Error in getAllTasks query:", error);
     throw new GraphQLError("Failed to getAllTasks. Please try agian later")
   }
 }

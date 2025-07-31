@@ -19,7 +19,6 @@ export default async function getFinishedTaskList(
       userId: task.userId,
     }));
   } catch (error) {
-    console.error("Error in getFinishedTaskList resolver:", error);
     throw new GraphQLError("Failed to getFinishedTaskList. Please try again later.")
   }
 }

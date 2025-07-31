@@ -59,7 +59,6 @@ export default async function updateTask(
       message: "Task updated successfully",
     };
   } catch (error) {
-    console.error("Error during updating the task: ", error)
     throw new GraphQLError("Failed to update the task. Please try again later.")
   }
 }

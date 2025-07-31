@@ -6,8 +6,16 @@ export default async function addTask(
   _: unknown,
   { input }: { input: TaskInput }
 ) {
+  const task = await Task.create({
+    taskName: input.taskName,
+    description: input.description,
+    isDone: false,
+    priority: input.priority,
+    tags: input.tags,
+    userId: input.userId,
+  });
   try {
-    const { taskName, description, priority, tags, userId } = input;
+    const { taskName, description, priority, tags, userId } = task;
 
     if (description === taskName) {
       return {
@@ -45,21 +53,11 @@ export default async function addTask(
       };
     }
 
-    const task = await Task.create({
-      taskName: taskName,
-      description: description,
-      isDone: false,
-      priority: priority,
-      tags: tags,
-      userId: userId,
-    });
-
     return {
       success: true,
       message: "Task added successfully",
     };
   } catch (error) {
-    console.error("Error during adding the task: ", error)
     throw new GraphQLError("Failed to add task. Please try again.");
   }
 }
